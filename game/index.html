@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ridgeline Run</title>
+<link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="scene" aria-label="Ridgeline Run flight view"></canvas>
+
+  <!-- Flight instruments: values are written by src/hud.js every frame. -->
+  <div id="hud" class="hidden" aria-hidden="true">
+    <div id="mission-panel" class="panel">
+      <div class="panel-head"><span id="mission-name">RING RUN</span><span id="mission-clock">00:00</span></div>
+      <div id="mission-goal">Fly the glowing rings in order</div>
+      <div class="meter-row"><span class="meter-label">RINGS</span><span id="ring-count">0 / 12</span></div>
+      <div class="meter"><div id="ring-fill" class="meter-fill cyan"></div></div>
+      <div class="score-row"><span>SCORE</span><span id="score">0</span></div>
+    </div>
+
+    <div id="compass">
+      <div id="compass-window"><div id="compass-strip"></div></div>
+      <div id="compass-caret"></div>
+      <div id="heading-readout">000&deg;</div>
+    </div>
+
+    <div id="speed-tape" class="tape">
+      <div class="tape-title">KIAS</div>
+      <div class="tape-window"><div id="speed-strip"></div></div>
+      <div id="speed-box">0</div>
+    </div>
+
+    <div id="alt-tape" class="tape">
+      <div class="tape-title">ALT m</div>
+      <div class="tape-window"><div id="alt-strip"></div></div>
+      <div id="alt-box">0</div>
+    </div>
+
+    <div id="vs-box"><span id="vs-value">0.0</span><span class="unit">VS</span></div>
+
+    <div id="reticle">
+      <div id="ladder"><div class="ladder-line l0"></div><div class="ladder-line l1"></div><div class="ladder-line l2"></div></div>
+      <div id="gun-cross"></div>
+      <div id="fpm"></div>
+      <div id="bank-pointer"></div>
+    </div>
+
+    <div id="low-warning" class="hidden">PULL UP</div>
+    <div id="stall-warning" class="hidden">STALL</div>
+
+    <div id="engine-panel" class="panel">
+      <div class="bar-block">
+        <div class="bar-label"><span>THROTTLE</span><span id="throttle-pct">70%</span></div>
+        <div class="bar"><div id="throttle-fill" class="bar-fill amber"></div></div>
+      </div>
+      <div class="bar-block">
+        <div class="bar-label"><span>FUEL</span><span id="fuel-pct">100%</span></div>
+        <div class="bar"><div id="fuel-fill" class="bar-fill green"></div></div>
+      </div>
+      <div id="controls-hint">W/S PITCH &middot; A/D ROLL &middot; SHIFT/CTRL THROTTLE &middot; P PAUSE &middot; R RESTART</div>
+    </div>
+
+    <div id="next-ring" class="panel"><span class="tiny">NEXT GATE</span><span id="ring-distance">--- m</span></div>
+  </div>
+
+  <div id="title" class="screen">
+    <div class="title-inner">
+      <div class="eyebrow">LOW-POLY FLIGHT &middot; THREE SORTIES</div>
+      <h1>RIDGELINE<span>RUN</span></h1>
+      <p class="tagline">Thread the gates. Hug the valley. Put it down on the strip.</p>
+      <div class="missions" id="mission-cards">
+        <button class="mission-card selected" data-mission="ringrun">
+          <span class="mc-index">01</span>
+          <span class="mc-name">RING RUN</span>
+          <span class="mc-desc">Twelve glowing gates down the river valley. Clean lines score.</span>
+        </button>
+        <button class="mission-card" data-mission="canyon">
+          <span class="mc-index">02</span>
+          <span class="mc-name">CANYON DASH</span>
+          <span class="mc-desc">Low gates, thin air, big speed bonus. Stay under the ridge line.</span>
+        </button>
+        <button class="mission-card" data-mission="landing">
+          <span class="mc-index">03</span>
+          <span class="mc-name">VALLEY LANDING</span>
+          <span class="mc-desc">Follow three beacons, then grease it onto the gravel strip.</span>
+        </button>
+      </div>
+      <div class="title-controls">
+        <div><b>W / S</b> or <b>&uarr; / &darr;</b> pitch</div>
+        <div><b>A / D</b> or <b>&larr; / &rarr;</b> roll &mdash; bank turns the plane</div>
+        <div><b>SHIFT / CTRL</b> throttle up / down</div>
+        <div><b>P</b> pause &middot; <b>R</b> restart &middot; <b>1&ndash;3</b> pick mission</div>
+      </div>
+      <button id="start-button">CLICK TO FLY</button>
+      <div class="fine">Headphones on. Engine sound is generated live.</div>
+    </div>
+  </div>
+
+  <div id="overlay" class="screen hidden">
+    <div class="overlay-inner">
+      <div id="overlay-kicker">PAUSED</div>
+      <h2 id="overlay-title">HOLDING</h2>
+      <div id="overlay-body"></div>
+      <div id="overlay-hint">Press <b>R</b> to restart &middot; <b>P</b> to resume</div>
+    </div>
+  </div>
+
+  <div id="fade"></div>
+</div>
+<script src="./vendor/three.min.js"></script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
